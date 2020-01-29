@@ -18,7 +18,7 @@ type fetchedUrls struct {
 
 // Crawl uses fetcher to recursively crawl
 // pages starting with url, to a maximum of depth.
-func Crawl(url string, depth int, fetcher Fetcher, used fetchedUrls, wg *sync.WaitGroup) {
+func Crawl(url string, depth int, fetcher Fetcher, used *fetchedUrls, wg *sync.WaitGroup) {
 	if depth <= 0 {
 		return
 	}
@@ -46,7 +46,7 @@ func Crawl(url string, depth int, fetcher Fetcher, used fetchedUrls, wg *sync.Wa
 
 func main() {
 	wg := &sync.WaitGroup{}
-	used := fetchedUrls{urls: make(map[string]bool)}
+	used := &fetchedUrls{urls: make(map[string]bool)}
 	Crawl("https://golang.org/", 4, fetcher, used, wg)
 	wg.Wait()
 }
